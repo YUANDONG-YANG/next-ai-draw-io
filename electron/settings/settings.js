@@ -290,6 +290,7 @@ function getProviderLabel(provider) {
         siliconflow: "SiliconFlow",
         modelscope: "ModelScope",
         ollama: "Ollama",
+        groq: "Groq",
     }
     return labels[provider] || provider
 }

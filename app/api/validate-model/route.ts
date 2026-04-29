@@ -350,7 +350,8 @@ export async function POST(req: Request) {
             case "qwen":
             case "kimi":
             case "qiniu":
-            case "novita": {
+            case "novita":
+            case "groq": {
                 const baseURL =
                     baseUrl ||
                     PROVIDER_INFO[provider as ProviderName]?.defaultBaseUrl ||

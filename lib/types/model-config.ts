@@ -22,6 +22,7 @@ export type ProviderName =
     | "kimi"
     | "minimax"
     | "novita"
+    | "groq"
 
 // Individual model configuration
 export interface ModelConfig {
@@ -103,6 +104,7 @@ export const PROVIDER_LOGO_MAP: Record<string, string> = {
     modelscope: "modelscope",
     minimax: "minimax",
     novita: "novita",
+    groq: "groq",
 }
 
 // Provider metadata
@@ -184,6 +186,10 @@ export const PROVIDER_INFO: Record<
     novita: {
         label: "Novita AI",
         defaultBaseUrl: "https://api.novita.ai/openai",
+    },
+    groq: {
+        label: "Groq",
+        defaultBaseUrl: "https://api.groq.com/openai/v1",
     },
 }
 
@@ -361,6 +367,13 @@ export const SUGGESTED_MODELS: Partial<Record<ProviderName, string[]>> = {
         "moonshotai/kimi-k2.5",
         "zai-org/glm-5",
         "minimax/minimax-m2.5",
+    ],
+    groq: [
+        // Groq LPU inference — model IDs from https://console.groq.com/docs/models
+        "llama-3.3-70b-versatile",
+        "llama-3.1-8b-instant",
+        "meta-llama/llama-4-scout-17b-16e-instruct",
+        "mixtral-8x7b-32768",
     ],
 }
 

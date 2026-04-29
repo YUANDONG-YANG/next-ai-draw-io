@@ -29,6 +29,7 @@ export const SINGLE_SYSTEM_PROVIDERS = new Set<ProviderName>([
     "kimi",
     "qiniu",
     "novita",
+    "groq",
 ])
 
 /**
@@ -100,6 +101,7 @@ const ALLOWED_CLIENT_PROVIDERS: ProviderName[] = [
     "kimi",
     "minimax",
     "novita",
+    "groq",
 ]
 
 // Bedrock provider options for Anthropic beta features
@@ -244,6 +246,16 @@ function buildProviderOptions(
     const options: Record<string, any> = {}
 
     switch (provider) {
+        case "groq": {
+            // Groq OpenAI-compatible API: parallel tool calls and strict JSON schemas
+            // often trigger invalid_request_error / tool_use_failed on Llama/Mixtral.
+            options.openai = {
+                parallelToolCalls: false,
+                strictJsonSchema: false,
+            }
+            break
+        }
+
         case "openai": {
             const reasoningEffort = process.env.OPENAI_REASONING_EFFORT
             const reasoningSummary = process.env.OPENAI_REASONING_SUMMARY
@@ -559,6 +571,7 @@ const PROVIDER_ENV_VARS: Record<ProviderName, string | null> = {
     kimi: "KIMI_API_KEY",
     minimax: "MINIMAX_API_KEY",
     novita: "NOVITA_API_KEY",
+    groq: "GROQ_API_KEY",
 }
 
 /**
@@ -641,7 +654,7 @@ function validateProviderCredentials(
  * Get the AI model based on environment variables
  *
  * Environment variables:
- * - AI_PROVIDER: The provider to use (bedrock, openai, anthropic, google, azure, ollama, openrouter, deepseek, siliconflow, sglang, gateway, modelscope)
+ * - AI_PROVIDER: The provider to use (bedrock, openai, anthropic, google, azure, ollama, openrouter, deepseek, siliconflow, sglang, gateway, modelscope, groq, …)
  * - AI_MODEL: The model ID/name for the selected provider
  *
  * Provider-specific env vars:
@@ -1263,7 +1276,8 @@ export function getAIModel(overrides?: ClientOverrides): ModelConfig {
         case "qwen":
         case "qiniu":
         case "kimi":
-        case "novita": {
+        case "novita":
+        case "groq": {
             const envVar = PROVIDER_ENV_VARS[provider]
             if (!envVar) {
                 throw new Error(
@@ -1290,7 +1304,7 @@ export function getAIModel(overrides?: ClientOverrides): ModelConfig {
 
         default:
             throw new Error(
-                `Unknown AI provider: ${provider}. Supported providers: bedrock, openai, anthropic, google, azure, ollama, openrouter, deepseek, siliconflow, sglang, gateway, edgeone, doubao, modelscope, glm, qwen, qiniu, kimi, minimax, novita`,
+                `Unknown AI provider: ${provider}. Supported providers: bedrock, openai, anthropic, google, azure, ollama, openrouter, deepseek, siliconflow, sglang, gateway, edgeone, doubao, modelscope, glm, qwen, qiniu, kimi, minimax, novita, groq`,
             )
     }
 

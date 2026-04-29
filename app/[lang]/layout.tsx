@@ -171,6 +171,7 @@ export default async function RootLayout({
                 />
             </head>
             <body
+                suppressHydrationWarning
                 className={`${plusJakarta.variable} ${jetbrainsMono.variable} antialiased`}
             >
                 <DictionaryProvider dictionary={dictionary}>

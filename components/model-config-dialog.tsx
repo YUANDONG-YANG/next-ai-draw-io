@@ -87,6 +87,9 @@ function ProviderLogo({
     if (provider === "doubao") {
         return <Sparkles className={cn("size-4", className)} />
     }
+    if (provider === "groq") {
+        return <Zap className={cn("size-4 text-amber-500", className)} />
+    }
 
     const logoName = PROVIDER_LOGO_MAP[provider] || provider
     return (

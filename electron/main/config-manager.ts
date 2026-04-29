@@ -63,7 +63,7 @@ function encryptValue(value: string): string {
  * Returns the original value if it's not encrypted or decryption fails
  */
 function decryptValue(value: string): string {
-    if (!value || !value.startsWith(ENCRYPTED_PREFIX)) {
+    if (!value?.startsWith(ENCRYPTED_PREFIX)) {
         return value
     }
     if (!isEncryptionAvailable()) {
@@ -362,6 +362,7 @@ const PROVIDER_ENV_MAP: Record<string, { apiKey: string; baseUrl: string }> = {
     // bedrock doesn't use API keys in the same way
     bedrock: { apiKey: "", baseUrl: "" },
     ollama: { apiKey: "OLLAMA_API_KEY", baseUrl: "OLLAMA_BASE_URL" },
+    groq: { apiKey: "GROQ_API_KEY", baseUrl: "GROQ_BASE_URL" },
 }
 
 /**
